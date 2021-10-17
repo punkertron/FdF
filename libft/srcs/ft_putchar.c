@@ -1,26 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.c                                       :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/26 13:31:33 by drohanne          #+#    #+#             */
-/*   Updated: 2021/09/26 13:31:34 by drohanne         ###   ########.fr       */
+/*   Created: 2021/09/26 13:32:03 by drohanne          #+#    #+#             */
+/*   Updated: 2021/09/26 13:32:03 by drohanne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_lstsize(t_list *lst)
+void	ft_putchar(char c)
 {
-	int	l;
-
-	l = 0;
-	while (lst)
-	{
-		l++;
-		lst = lst->next;
-	}
-	return (l);
+	write(1, &c, 1);
 }
