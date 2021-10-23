@@ -22,27 +22,34 @@ void	ft_exit(void)
 void	fdf(char *argv)
 {
 	int		fd;
+	int		i;
 	char	*line;
 	char	**split;
 	t_map	*map;
 
-	fd = open(ft_itoa(argv), O_RDONLY);
+	fd = open(argv, O_RDONLY);
 	if (fd == -1)
-		ft_perror();
+		ft_exit();
 	map = init_map();
+	i = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
 		split = ft_split(line, ' ');
-		fill_map(split, map);
+		fill_map(split, map, i);
+		i++;
 		free_split(split);
 	}
-	
+	printf("OKAt");
+	printf("%d/n", map->cord[0][0]);
 }
 
 int	main(int argc, char **argv)
 {
 	if (argc == 2)
+	{
+		printf("ok");
 		fdf(argv[1]);
+	}
 	else
 		ft_putstr_fd("Bad arguments!\n", 2);
 	return (0);

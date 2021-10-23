@@ -11,19 +11,16 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
+//#include libft.h"
 
 t_map	*init_map(void)
 {
 	t_map	*map;
 
-	t_map = malloc(sizeof(t_map));
-	if (t_map == NULL)
+	map = malloc(sizeof(t_map));
+	if (map == NULL)
 		ft_exit();
-	map->next = NULL;
-	map->prev = NULL;
-	map->x = -1;
-	map->y = -1;
-	map->z = 0;
+	return (map);
 }
 
 void	free_split(char **split)
@@ -40,17 +37,18 @@ void	free_split(char **split)
 	free(split);
 }
 
-void	fill_map(char **split, t_map *map)
+void	fill_map(char **split, t_map *map, int i)
 {
 	int	a;
-	int	max_x;
-	int	max_y;
+	//int	max_x;
+	//int	max_y;
 
 	a = 0;
-	max_y = max_y(map);
-	max_x = max_x(map);
+	map->cord = malloc(1000);
 	while (split[a])
 	{
-		map->z = ft_itoa(split[a]);
+		//map->cord[i][a] = malloc(sizeof(int));
+		map->cord[i][a] = 1; //ft_atoi((const char *)split[a]);
+		a++;
 	}
 }
