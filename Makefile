@@ -6,11 +6,12 @@
 #    By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/05 21:43:59 by drohanne          #+#    #+#              #
-#    Updated: 2021/10/10 18:47:39 by drohanne         ###   ########.fr        #
+#    Updated: 2021/10/24 17:52:46 by drohanne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC_FILES	= main.c get_next_line.c get_next_line_utils.c map.c
+SRC_FILES	= main.c get_next_line.c get_next_line_utils.c map.c \
+				draw.c
 SRCS_DIR	= ./srcs
 OBJS_DIR	= ./objs
 
@@ -25,7 +26,7 @@ INCLUDE		= -I ./includes
 
 CC			= gcc
 RM			= rm -rf
-CFLAGS		= -Wall -Wextra -Werror -g #$(INCLUDE)
+CFLAGS		= -Wall -Wextra -Werror -g
 LIB			= -L. -lft
 LIBFT_A		= ./libft/libft.a
 
@@ -40,7 +41,7 @@ all:		$(NAME)
 
 $(OBJS_DIR)/%.o :	$(SRCS_DIR)/%.c includes/fdf.h 
 					@mkdir -p objs
-					$(CC) -c $(CFLAGS) $(INCLUDE) ${LIB} $< -o $@
+					$(CC) -c $(CFLAGS) $(INCLUDE) $< -o $@
 
 clean:
 			${RM} ${OBJS_DIR}

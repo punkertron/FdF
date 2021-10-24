@@ -6,7 +6,7 @@
 /*   By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 15:28:25 by drohanne          #+#    #+#             */
-/*   Updated: 2021/10/17 15:28:26 by drohanne         ###   ########.fr       */
+/*   Updated: 2021/10/24 16:42:57 by drohanne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ft_strjoin_new(char *s1, char const *s2)
 	a = -1;
 	l = 0;
 	if (!s1)
-		s1 = _strdup("");
+		s1 = ft_strdup("");
 	dest = malloc(sizeof(char) * (ft_strlen_new(s1) + ft_strlen_new(s2) + 1));
 	if (dest == 0)
 		return (NULL);
