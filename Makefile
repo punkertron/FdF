@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+         #
+#    By: dunstan <dunstan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/05 21:43:59 by drohanne          #+#    #+#              #
-#    Updated: 2021/10/24 17:52:46 by drohanne         ###   ########.fr        #
+#    Updated: 2021/10/30 00:22:55 by dunstan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC_FILES	= main.c get_next_line.c get_next_line_utils.c map.c \
-				draw.c
+				draw.c draw_utils.c
 SRCS_DIR	= ./srcs
 OBJS_DIR	= ./objs
 
@@ -24,9 +24,9 @@ OBJS 		= $(addprefix $(OBJS_DIR)/, $(OBJ_FILES))
 NAME		= fdf
 INCLUDE		= -I ./includes
 
-CC			= gcc
+CC			= clang
 RM			= rm -rf
-CFLAGS		= -Wall -Wextra -Werror -g
+CFLAGS		= -Wall -Wextra -Werror -g3
 LIB			= -L. -lft
 LIBFT_A		= ./libft/libft.a
 

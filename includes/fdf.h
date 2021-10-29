@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dunstan <dunstan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/24 17:50:32 by drohanne          #+#    #+#             */
-/*   Updated: 2021/10/24 19:03:44 by drohanne         ###   ########.fr       */
+/*   Updated: 2021/10/30 00:24:28 by dunstan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,21 @@ typedef struct s_map
 	void	*mlx_ptr;
 	void	*win_ptr;
 	int		**cord;
+	int		height;
+	int		width;
 } t_map;
 
 void	fdf(char *argv);
-void	ft_exit(void);
-void	fill_map(char **split, t_map *map, int i);
+
+t_map	*init_map(char *argv);
+void	get_heght_width(t_map **map, char *argv);
+void	map_fill(char **line, t_map **map, int i);
+void	fill_map(char **split, t_map **map, int i);
+
+int 	ft_abs(int a);
+
 void	free_split(char **split);
-t_map	*init_map(void);
 void	free_map(t_map **map);
-void	map_fill(char **line, t_map *map, int i);
+void	ft_exit(void);
 
 #endif

@@ -59,7 +59,7 @@ OBJS 		= $(addprefix $(OBJS_DIR)/, $(OBJ_FILES))
 NAME		= libft.a
 INCLUDE		= -I ./includes
 
-CC			= gcc
+CC			= clang
 LIBC		= ar rcs
 RM			= rm -rf
 CFLAGS		= -Wall -Wextra -Werror -g $(INCLUDE)
