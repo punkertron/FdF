@@ -6,7 +6,7 @@
 /*   By: dunstan <dunstan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 15:28:09 by drohanne          #+#    #+#             */
-/*   Updated: 2021/10/30 18:08:11 by dunstan          ###   ########.fr       */
+/*   Updated: 2021/10/30 19:26:53 by dunstan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	fdf(char *argv)
 		map_fill(&line, &map, i++);
 	free(line);
 	close(fd);
-	//draw(&map);
+	draw(&map);
 	free_map(&map);
 }
 

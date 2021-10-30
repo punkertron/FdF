@@ -6,7 +6,7 @@
 /*   By: dunstan <dunstan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/24 17:50:32 by drohanne          #+#    #+#             */
-/*   Updated: 2021/10/30 18:06:33 by dunstan          ###   ########.fr       */
+/*   Updated: 2021/10/30 19:52:49 by dunstan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,17 @@ typedef struct s_map
 	int		height;
 	int		width;
 	int		zoom;
+	int		colour;
 } t_map;
 
 typedef struct s_bran
 {
 	int	dx;
 	int	dy;
+	int	signx;
+	int	signy;
 	int error;
-	int	derror;
-	int y;
-	int	x;
-	int	diry;
+	int	error2;
 } t_bran;
 
 void	fdf(char *argv);
@@ -51,7 +51,7 @@ void	brasenham(int x0, int x1, int y0, int y1, t_map **map);
 void	fill_b(t_bran *b, int x0, int x1, int y0, int y1);
 
 int		ft_abs(int a);
-int		ft_max(int a, int b);
+int		ft_colour(int i);
 
 void	free_split(char **split);
 void	free_map(t_map **map);
