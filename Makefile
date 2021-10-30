@@ -6,7 +6,7 @@
 #    By: dunstan <dunstan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/05 21:43:59 by drohanne          #+#    #+#              #
-#    Updated: 2021/10/30 00:22:55 by dunstan          ###   ########.fr        #
+#    Updated: 2021/10/30 18:04:43 by dunstan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,11 +23,12 @@ OBJS 		= $(addprefix $(OBJS_DIR)/, $(OBJ_FILES))
 
 NAME		= fdf
 INCLUDE		= -I ./includes
+DEPS		= $(OBJS:.o=.d)
 
 CC			= clang
 RM			= rm -rf
-CFLAGS		= -Wall -Wextra -Werror -g3
-LIB			= -L. -lft
+CFLAGS		= -Wall -Wextra -Werror -MMD -MP -march=native -O2
+LIB			= -L./libft -lft -L./lib -lmlx -lXext -lX11 -lm
 LIBFT_A		= ./libft/libft.a
 
 $(NAME):	$(LIBFT_A) $(OBJS)
@@ -35,11 +36,12 @@ $(NAME):	$(LIBFT_A) $(OBJS)
 
 $(LIBFT_A):
 			@${MAKE} all -C ./libft
-			cp libft/libft.a ./
+			
 
 all:		$(NAME)
 
-$(OBJS_DIR)/%.o :	$(SRCS_DIR)/%.c includes/fdf.h 
+-include $(DEPS)
+$(OBJS_DIR)/%.o :	$(SRCS_DIR)/%.c
 					@mkdir -p objs
 					$(CC) -c $(CFLAGS) $(INCLUDE) $< -o $@
 

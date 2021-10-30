@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+         #
+#    By: dunstan <dunstan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/10 18:01:46 by drohanne          #+#    #+#              #
-#    Updated: 2021/10/24 16:17:00 by drohanne         ###   ########.fr        #
+#    Updated: 2021/10/30 18:03:02 by dunstan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,8 +44,16 @@ SRC_FILES	=	ft_isalnum.c \
 			ft_memcmp.c \
 			ft_strchr.c \
 			ft_strrchr.c \
-			ft_putchar.c
-
+			ft_putchar.c \
+			ft_lstadd_back.c \
+			ft_lstadd_front.c \
+			ft_lstclear.c \
+			ft_lstsize.c \
+			ft_lstnew.c \
+			ft_lstlast.c \
+			ft_lstdelone.c \
+			ft_lstiter.c \
+			ft_lstlast.c
 
 SRCS_DIR	= ./srcs
 OBJS_DIR	= ./objs
@@ -54,7 +62,7 @@ OBJ_FILES	= $(SRC_FILES:.c=.o)
 
 SRCS 		= $(addprefix $(SRCS_DIR)/, $(SRC_FILES))
 OBJS 		= $(addprefix $(OBJS_DIR)/, $(OBJ_FILES))
-
+DEPS		= $(OBJS:.o=.d)
 
 NAME		= libft.a
 INCLUDE		= -I ./includes
@@ -62,14 +70,16 @@ INCLUDE		= -I ./includes
 CC			= clang
 LIBC		= ar rcs
 RM			= rm -rf
-CFLAGS		= -Wall -Wextra -Werror -g $(INCLUDE)
+CFLAGS		= -Wall -Wextra -Werror -O2 -MMD -MP -march=native
 
 $(NAME):	$(OBJS)
 			@${LIBC} ${NAME} ${OBJS}
 
 all:		$(NAME)
 
-$(OBJS_DIR)/%.o :	$(SRCS_DIR)/%.c includes/libft.h 
+
+-include $(DEPS)
+$(OBJS_DIR)/%.o :	$(SRCS_DIR)/%.c
 					@mkdir -p objs
 					@$(CC) -c $(CFLAGS) $(INCLUDE) $< -o $@
 

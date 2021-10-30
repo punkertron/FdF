@@ -6,15 +6,22 @@
 /*   By: dunstan <dunstan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 00:22:05 by dunstan           #+#    #+#             */
-/*   Updated: 2021/10/30 00:24:17 by dunstan          ###   ########.fr       */
+/*   Updated: 2021/10/30 13:36:03 by dunstan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int ft_abs(int a)
+int		ft_abs(int a)
 {
-    if (a >= 0)
-        return (a);
-    return (-a);
+	if (a >= 0)
+		return (a);
+	return (-a);
+}
+
+int	ft_max(int a, int b)
+{
+	if (a >= b)
+		return (a);
+	return (b);
 }

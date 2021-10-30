@@ -6,11 +6,12 @@
 /*   By: dunstan <dunstan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 15:28:09 by drohanne          #+#    #+#             */
-/*   Updated: 2021/10/29 23:38:40 by dunstan          ###   ########.fr       */
+/*   Updated: 2021/10/30 18:08:11 by dunstan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include "get_next_line.h"
 
 void	ft_exit(void)
 {
@@ -55,35 +56,26 @@ void	fdf(char *argv)
 	while (get_next_line(fd, &line) > 0)
 		map_fill(&line, &map, i++);
 	free(line);
-	//map_fill(&line, &map, i);
 	close(fd);
+	//draw(&map);
 	free_map(&map);
-}
-
-void	map_fill(char **line, t_map **map, int i)
-{
-	char	**split;
-	int		a;
-
-	a = 0;
-	split = ft_split(*line, ' ');
-	if (split[0] == NULL)
-		exit(1);
-	if ((*map)->width == -1)
-	{
-		while (split[a])
-			a++;
-		(*map)->width = a;
-	}
-	fill_map(split, map, i);
-	free_split(split);
-	free(*line);
 }
 
 int	main(int argc, char **argv)
 {
+	int		fd;
+
 	if (argc == 2)
+	{
+		fd = open(argv[1], __O_DIRECTORY);
+		if (fd > 0)
+		{
+			close(fd);
+			ft_putendl_fd("Directory, not a file!", 2);
+			exit(-1);
+		}
 		fdf(argv[1]);
+	}
 	else
 		ft_putstr_fd("Bad arguments!\n", 2);
 	return (0);
