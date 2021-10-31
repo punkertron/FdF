@@ -6,114 +6,111 @@
 /*   By: dunstan <dunstan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/24 17:53:34 by drohanne          #+#    #+#             */
-/*   Updated: 2021/10/30 23:32:10 by dunstan          ###   ########.fr       */
+/*   Updated: 2021/10/31 23:21:48 by dunstan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "mlx.h"
+#include <math.h>
 
 void	draw(t_map **map)
 {
+	(*map)->zoom = find_zoom(map);
 	(*map)->mlx_ptr = mlx_init();
-	(*map)->win_ptr = mlx_new_window((*map)->mlx_ptr , 1000, 700, "FdF");
-	(*map)->zoom = 20;
+	(*map)->win_ptr = mlx_new_window((*map)->mlx_ptr, 1200, 700, "FdF");
 	draw_lines(map);
-	//brasenham(10, 10, 100, 400, map);
 	mlx_loop((*map)->mlx_ptr);
 }
 
 void	draw_lines(t_map **map)
 {
-	int	x;
-	int	y;
-	int	z;
+	t_cord	c;
 
-	y = 0;
-	z = (*map)->zoom;
-	while (y < (*map)->height)
+	c.y0 = 0;
+	while (c.y0 < (*map)->height)
 	{
-		x = 0;
-		while (x < (*map)->width)
+		c.x0 = 0;
+		while (c.x0 < (*map)->width)
 		{
-			if (x < (*map)->width - 1)
-				brasenham(x * z, (x + 1) * z, y * z, y * z, map);
-			if (y < (*map)->height - 1)
-				brasenham(x * z, x * z, y * z, (y + 1) * z, map);
-			x++;
+			c.y1 = c.y0;
+			c.x1 = c.x0;
+			if (c.x0 < (*map)->width - 1)
+			{
+				c.x1 += 1;
+				brasenham(zoom_c(c, (*map)->zoom), map);
+			}
+			c.x1 = c.x0;
+			if (c.y0 < (*map)->height - 1)
+			{
+				c.y1 += 1;
+				brasenham(zoom_c(c, (*map)->zoom), map);
+			}
+			c.x0++;
 		}
-		y++;
+		c.y0++;
 	}
 }
 
-int	ft_colour(int i)
+static void	fill_b(t_bran *b, t_cord *t)
 {
-	if (i == 0)
-		return (0x00FFFF);
-	if (i < 50)
-		return (i * 120000);
-	else if (i < 200)
-		return (10000 + i * 10000);
-	else
-		return (i);
-}
-
-void	fill_b(t_bran *b, int x0, int x1, int y0, int y1)
-{
-	b->dx = ft_abs(x1 - x0);
-	b->dy = ft_abs(y1 - y0);
-	b->signx = (x0 < x1) - 1 * (x0 >= x1);
-	b->signy = (y0 < y1) - 1 * (y0 >= y1);
+	b->dx = ft_abs(t->x1 - t->x0);
+	b->dy = ft_abs(t->y1 - t->y0);
+	b->signx = (t->x0 < t->x1) - 1 * (t->x0 >= t->x1);
+	b->signy = (t->y0 < t->y1) - 1 * (t->y0 >= t->y1);
 	b->error = b->dx - b->dy;
-
-	/*b->dx = ft_abs(x1 - x0);
-	b->dy = ft_abs(y1 - y0);
-	b->error = 0;
-	b->derror = b->dy + 1;
-	b->y = y0;
-	b->x = x0;
-	b->diry = y1 - y0;
-	if (b->diry > 0)
-		b->diry = 1;
-	if (b->diry < 0)
-		b->diry = -1;
-		*/
+	t->x0 += 500;
+	t->x1 += 500;
+	t->y0 += 150;
+	t->y1 += 150;
 }
 
-void	brasenham(int x0, int x1, int y0, int y1, t_map **map)
+static void	isometric(t_cord *t, t_map **map)
 {
-	t_bran b;
+	int	z;
+	int	z1;
+	int	temp1;
+	int	temp2;
 
-	fill_b(&b, x0, x1, y0, y1);
+	z = (*map)->cord[t->y0 / (*map)->zoom][t->x0 / (*map)->zoom];
+	z1 = (*map)->cord[t->y1 / (*map)->zoom][t->x1 / (*map)->zoom];
+	temp1 = t->x0;
+	temp2 = t->y0;
+	t->x0 = (temp1 - temp2) * cos(0.523599);
+	t->y0 = (temp1 + temp2) * sin(0.523599) - z;
+	temp1 = t->x1;
+	temp2 = t->y1;
+	t->x1 = (temp1 - temp2) * cos(0.523599);
+	t->y1 = (temp1 + temp2) * sin(0.523599) - z1;
+	if (z == 0)
+		z = z1;
+	(*map)->colour = ft_colour(z);
+}
+
+void	brasenham(t_cord c, t_map **map)
+{
+	t_bran	b;
+	t_cord	t;
+
+	t = c;
+	isometric(&t, map);
+	fill_b(&b, &t);
 	while (1 == 1)
 	{
-		mlx_pixel_put((*map)->mlx_ptr, (*map)->win_ptr, x0, y0,
-			ft_colour((*map)->cord[y0 / (*map)->zoom][x0 / (*map)->zoom]));
-		if (x0 == x1 && y0 == y1)
+		mlx_pixel_put((*map)->mlx_ptr, (*map)->win_ptr, t.x0, t.y0,
+			(*map)->colour);
+		if (t.x0 == t.x1 && t.y0 == t.y1)
 			break ;
 		b.error2 = b.error * 2;
 		if (b.error2 > -b.dy)
 		{
 			b.error -= b.dy;
-			x0 += b.signx;
+			t.x0 += b.signx;
 		}
 		if (b.error2 < b.dx)
 		{
 			b.error += b.dx;
-			y0 += b.signy;
+			t.y0 += b.signy;
 		}
 	}
-
-
-	/*while (b.x <= x1)
-	{
-		mlx_pixel_put((*map)->mlx_ptr, (*map)->win_ptr, b.x, b.y, 0xEF0909);
-		b.error = b.error + b.derror;
-		if (b.error >= b.derror + 1)
-		{
-			b.y = b.y + b.diry;
-			b.error = b.error - (b.dx + 1);
-		}
-		b.x++;
-	}	*/
 }

@@ -6,7 +6,7 @@
 /*   By: dunstan <dunstan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 15:28:14 by drohanne          #+#    #+#             */
-/*   Updated: 2021/10/30 18:08:06 by dunstan          ###   ########.fr       */
+/*   Updated: 2021/10/31 22:44:32 by dunstan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	map_fill(char **line, t_map **map, int i)
 t_map	*init_map(char *argv)
 {
 	t_map	*map;
-	
 
 	map = malloc(sizeof(t_map));
 	if (map == NULL)

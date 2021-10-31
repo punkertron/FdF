@@ -6,7 +6,7 @@
 #    By: dunstan <dunstan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/05 21:43:59 by drohanne          #+#    #+#              #
-#    Updated: 2021/10/30 19:56:24 by dunstan          ###   ########.fr        #
+#    Updated: 2021/10/31 22:41:03 by dunstan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,8 @@ DEPS		= $(OBJS:.o=.d)
 
 CC			= clang
 RM			= rm -rf
-CFLAGS		= -Wall -Wextra -Werror -MMD -MP -g3 #-march=native -O2
-LIB			= -L./libft -lft -L./lib -lmlx -lXext -lX11 -lm
+CFLAGS		= -Wall -Wextra -Werror -MMD -MP -march=native -O2 #-g3
+LIB			= -L./libft -lft -L./libmlx -lmlx -lXext -lX11 -lm
 LIBFT_A		= ./libft/libft.a
 
 $(NAME):	$(LIBFT_A) $(OBJS)
