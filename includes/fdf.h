@@ -6,7 +6,7 @@
 /*   By: dunstan <dunstan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/24 17:50:32 by drohanne          #+#    #+#             */
-/*   Updated: 2021/10/31 23:23:12 by dunstan          ###   ########.fr       */
+/*   Updated: 2021/11/03 00:23:56 by dunstan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,11 @@ typedef struct s_map
 	int		height;
 	int		width;
 	int		zoom;
+	float	angle;
 	int		colour;
+	int		shift_x;
+	int		shift_y;
+	void	*img;
 }	t_map;
 
 typedef struct s_bran
@@ -48,16 +52,34 @@ typedef struct s_cord
 	int	y1;
 }	t_cord;
 
+typedef struct s_img
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}	t_img;
+
 void	fdf(char *argv);
+//void	my_mlx_pixel_put(t_img *img, int x, int y, int colour);
 
 t_map	*init_map(char *argv);
+void	default_map(t_map **map);
 void	get_heght_width(t_map **map, char *argv);
 void	map_fill(char **line, t_map **map, int i);
 void	fill_map(char **split, t_map **map, int i);
 
-void	draw(t_map **map);
-void	draw_lines(t_map **map);
-void	brasenham(t_cord c, t_map **map);
+void	pre_draw(t_map **map);
+void	draw_lines(t_map **map, t_img *img);
+void	brasenham(t_cord c, t_map **map, t_img *img);
+
+void	esc_exit(t_map *map);
+void	my_mlx_pixel_put(t_img *img, int x, int y, int colour);
+void	fill_b(t_bran *b, t_cord *t);
+void	add_shift(t_cord *t, t_map **map);
+void	isometric(t_cord *t, t_map **map);
+
 int		find_zoom(t_map **map);
 t_cord	zoom_c(t_cord c, int z);
 

@@ -6,24 +6,69 @@
 /*   By: dunstan <dunstan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/24 17:53:34 by drohanne          #+#    #+#             */
-/*   Updated: 2021/10/31 23:21:48 by dunstan          ###   ########.fr       */
+/*   Updated: 2021/11/03 00:31:34 by dunstan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "mlx.h"
-#include <math.h>
 
-void	draw(t_map **map)
+static void	draw(t_map **map)
+{
+	t_img	img;
+
+	img.img = mlx_new_image((*map)->mlx_ptr, 1200, 800);
+	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
+			&img.endian);
+	(*map)->img = img.img;
+	draw_lines(map, &img);
+	mlx_put_image_to_window((*map)->mlx_ptr, (*map)->win_ptr, img.img, 0, 0);
+}
+
+/*
+65361 - 65364 (arrows) - moving the map;
+111 and 108 (O and L) - angle
+*/
+
+static int	key_hook(int keycode, t_map *map)
+{
+	if ((keycode >= 65361 && keycode <= 65364) || keycode == 65307
+		|| keycode == 108 || keycode == 111 || keycode == 102)
+	{
+		if (keycode == 65362)
+			map->shift_y -= 25;
+		else if (keycode == 65364)
+			map->shift_y += 25;
+		else if (keycode == 65361)
+			map->shift_x -= 20;
+		else if (keycode == 65363)
+			map->shift_x += 20;
+		else if (keycode == 111)
+			map->angle += 0.1;
+		else if (keycode == 108)
+			map->angle -= 0.1;
+		else if (keycode == 65307)
+			esc_exit(map);
+		else if (keycode == 102)
+			default_map(&map);
+		mlx_destroy_image(map->mlx_ptr, map->img);
+		draw(&map);
+	}
+	printf("%d\n", keycode);
+	return (1);
+}
+
+void	pre_draw(t_map **map)
 {
 	(*map)->zoom = find_zoom(map);
 	(*map)->mlx_ptr = mlx_init();
-	(*map)->win_ptr = mlx_new_window((*map)->mlx_ptr, 1200, 700, "FdF");
-	draw_lines(map);
+	(*map)->win_ptr = mlx_new_window((*map)->mlx_ptr, 1200, 800, "FdF");
+	draw(map);
+	mlx_key_hook((*map)->win_ptr, key_hook, *map);
 	mlx_loop((*map)->mlx_ptr);
 }
 
-void	draw_lines(t_map **map)
+void	draw_lines(t_map **map, t_img *img)
 {
 	t_cord	c;
 
@@ -38,13 +83,13 @@ void	draw_lines(t_map **map)
 			if (c.x0 < (*map)->width - 1)
 			{
 				c.x1 += 1;
-				brasenham(zoom_c(c, (*map)->zoom), map);
+				brasenham(zoom_c(c, (*map)->zoom), map, img);
 			}
 			c.x1 = c.x0;
 			if (c.y0 < (*map)->height - 1)
 			{
 				c.y1 += 1;
-				brasenham(zoom_c(c, (*map)->zoom), map);
+				brasenham(zoom_c(c, (*map)->zoom), map, img);
 			}
 			c.x0++;
 		}
@@ -52,42 +97,7 @@ void	draw_lines(t_map **map)
 	}
 }
 
-static void	fill_b(t_bran *b, t_cord *t)
-{
-	b->dx = ft_abs(t->x1 - t->x0);
-	b->dy = ft_abs(t->y1 - t->y0);
-	b->signx = (t->x0 < t->x1) - 1 * (t->x0 >= t->x1);
-	b->signy = (t->y0 < t->y1) - 1 * (t->y0 >= t->y1);
-	b->error = b->dx - b->dy;
-	t->x0 += 500;
-	t->x1 += 500;
-	t->y0 += 150;
-	t->y1 += 150;
-}
-
-static void	isometric(t_cord *t, t_map **map)
-{
-	int	z;
-	int	z1;
-	int	temp1;
-	int	temp2;
-
-	z = (*map)->cord[t->y0 / (*map)->zoom][t->x0 / (*map)->zoom];
-	z1 = (*map)->cord[t->y1 / (*map)->zoom][t->x1 / (*map)->zoom];
-	temp1 = t->x0;
-	temp2 = t->y0;
-	t->x0 = (temp1 - temp2) * cos(0.523599);
-	t->y0 = (temp1 + temp2) * sin(0.523599) - z;
-	temp1 = t->x1;
-	temp2 = t->y1;
-	t->x1 = (temp1 - temp2) * cos(0.523599);
-	t->y1 = (temp1 + temp2) * sin(0.523599) - z1;
-	if (z == 0)
-		z = z1;
-	(*map)->colour = ft_colour(z);
-}
-
-void	brasenham(t_cord c, t_map **map)
+void	brasenham(t_cord c, t_map **map, t_img *img)
 {
 	t_bran	b;
 	t_cord	t;
@@ -97,9 +107,8 @@ void	brasenham(t_cord c, t_map **map)
 	fill_b(&b, &t);
 	while (1 == 1)
 	{
-		mlx_pixel_put((*map)->mlx_ptr, (*map)->win_ptr, t.x0, t.y0,
-			(*map)->colour);
-		if (t.x0 == t.x1 && t.y0 == t.y1)
+		my_mlx_pixel_put(img, t.x0, t.y0, (*map)->colour);
+		if (t.x0 == t.x1 || t.y0 == t.y1)
 			break ;
 		b.error2 = b.error * 2;
 		if (b.error2 > -b.dy)

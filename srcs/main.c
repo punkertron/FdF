@@ -6,7 +6,7 @@
 /*   By: dunstan <dunstan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 15:28:09 by drohanne          #+#    #+#             */
-/*   Updated: 2021/10/30 19:26:53 by dunstan          ###   ########.fr       */
+/*   Updated: 2021/11/03 00:24:30 by dunstan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,18 @@ void	ft_exit(void)
 {
 	perror("Error");
 	exit(1);
+}
+
+t_map	*init_map(char *argv)
+{
+	t_map	*map;
+
+	map = malloc(sizeof(t_map));
+	if (map == NULL)
+		ft_exit();
+	get_heght_width(&map, argv);
+	default_map(&map);
+	return (map);
 }
 
 void	get_heght_width(t_map **map, char *argv)
@@ -57,7 +69,7 @@ void	fdf(char *argv)
 		map_fill(&line, &map, i++);
 	free(line);
 	close(fd);
-	draw(&map);
+	pre_draw(&map);
 	free_map(&map);
 }
 

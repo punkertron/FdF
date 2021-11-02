@@ -6,7 +6,7 @@
 /*   By: dunstan <dunstan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 15:28:14 by drohanne          #+#    #+#             */
-/*   Updated: 2021/10/31 22:44:32 by dunstan          ###   ########.fr       */
+/*   Updated: 2021/11/03 00:24:47 by dunstan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,11 @@ void	map_fill(char **line, t_map **map, int i)
 	free(*line);
 }
 
-t_map	*init_map(char *argv)
+void	default_map(t_map **map)
 {
-	t_map	*map;
-
-	map = malloc(sizeof(t_map));
-	if (map == NULL)
-		ft_exit();
-	get_heght_width(&map, argv);
-	return (map);
+	(*map)->shift_x = 500;
+	(*map)->shift_y = 150;
+	(*map)->angle = 0.523599;
 }
 
 void	free_split(char **split)

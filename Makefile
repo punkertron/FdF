@@ -6,12 +6,12 @@
 #    By: dunstan <dunstan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/05 21:43:59 by drohanne          #+#    #+#              #
-#    Updated: 2021/10/31 22:41:03 by dunstan          ###   ########.fr        #
+#    Updated: 2021/11/02 23:55:25 by dunstan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC_FILES	= main.c get_next_line.c get_next_line_utils.c map.c \
-				draw.c draw_utils.c
+				draw.c draw_utils.c draw_utils2.c
 SRCS_DIR	= ./srcs
 OBJS_DIR	= ./objs
 

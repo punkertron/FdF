@@ -6,11 +6,12 @@
 /*   By: dunstan <dunstan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 00:22:05 by dunstan           #+#    #+#             */
-/*   Updated: 2021/10/31 22:55:03 by dunstan          ###   ########.fr       */
+/*   Updated: 2021/11/03 00:19:49 by dunstan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include "mlx.h"
 
 int	ft_abs(int a)
 {
@@ -49,4 +50,12 @@ int	find_zoom(t_map **map)
 	fprintf(stderr, "height = %d\n", (*map)->height);
 	(void) map;
 	return (40);
+}
+
+void	esc_exit(t_map *map)
+{
+	mlx_destroy_image(map->mlx_ptr, map->img);
+	mlx_destroy_window(map->mlx_ptr, map->win_ptr);
+	free_map(&map);
+	exit(1);
 }
