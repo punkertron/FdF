@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dunstan <dunstan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 15:28:09 by drohanne          #+#    #+#             */
-/*   Updated: 2021/11/03 00:24:30 by dunstan          ###   ########.fr       */
+/*   Updated: 2021/11/04 13:32:48 by drohanne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	fdf(char *argv)
 	free(line);
 	close(fd);
 	pre_draw(&map);
-	free_map(&map);
 }
 
 int	main(int argc, char **argv)

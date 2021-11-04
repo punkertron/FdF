@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dunstan <dunstan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/30 00:22:05 by dunstan           #+#    #+#             */
-/*   Updated: 2021/11/03 00:19:49 by dunstan          ###   ########.fr       */
+/*   Created: 2021/11/04 16:13:06 by drohanne          #+#    #+#             */
+/*   Updated: 2021/11/04 16:13:11 by drohanne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	esc_exit(t_map *map)
 {
 	mlx_destroy_image(map->mlx_ptr, map->img);
 	mlx_destroy_window(map->mlx_ptr, map->win_ptr);
+	mlx_destroy_display(map->mlx_ptr);
+	mlx_loop_end(map->mlx_ptr);
 	free_map(&map);
-	exit(1);
+	exit(EXIT_SUCCESS);
 }

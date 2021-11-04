@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dunstan <dunstan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 15:28:14 by drohanne          #+#    #+#             */
-/*   Updated: 2021/11/03 00:24:47 by dunstan          ###   ########.fr       */
+/*   Updated: 2021/11/04 15:49:52 by drohanne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	default_map(t_map **map)
 	(*map)->shift_x = 500;
 	(*map)->shift_y = 150;
 	(*map)->angle = 0.523599;
+	(*map)->zoom = find_zoom(map);
 }
 
 void	free_split(char **split)
@@ -64,7 +65,7 @@ void	fill_map(char **split, t_map **map, int i)
 	a = 0;
 	while (a < (*map)->width)
 	{
-		(*map)->cord[i][a] = ft_atoi((const char *)split[a]);
+		(*map)->cord[i][a] = ft_atoi((const char *)split[a]) * 5;
 		a++;
 	}
 }
@@ -79,6 +80,7 @@ void	free_map(t_map **map)
 		free((*map)->cord[a]);
 		a++;
 	}
+	free((*map)->mlx_ptr);
 	free((*map)->cord);
 	free(*map);
 }

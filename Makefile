@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dunstan <dunstan@student.42.fr>            +#+  +:+       +#+         #
+#    By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/05 21:43:59 by drohanne          #+#    #+#              #
-#    Updated: 2021/11/02 23:55:25 by dunstan          ###   ########.fr        #
+#    Updated: 2021/11/04 14:45:59 by drohanne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,15 +27,15 @@ DEPS		= $(OBJS:.o=.d)
 
 CC			= clang
 RM			= rm -rf
-CFLAGS		= -Wall -Wextra -Werror -MMD -MP -march=native -O2 #-g3
+CFLAGS		= -Wall -Wextra -Werror -g3 # -MMD -MP -march=native -O2
 LIB			= -L./libft -lft -L./libmlx -lmlx -lXext -lX11 -lm
 LIBFT_A		= ./libft/libft.a
 
 $(NAME):	$(LIBFT_A) $(OBJS)
 			${CC} ${CFLAGS} ${OBJS} $(INCLUDE) ${LIB} -o ${NAME}
 
-$(LIBFT_A):
-			@${MAKE} all -C ./libft
+$(LIBFT_A):	
+			@${MAKE} -C ./libft
 			
 
 all:		$(NAME)

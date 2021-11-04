@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dunstan <dunstan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/24 17:53:34 by drohanne          #+#    #+#             */
-/*   Updated: 2021/11/03 00:31:34 by dunstan          ###   ########.fr       */
+/*   Updated: 2021/11/04 16:06:26 by drohanne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,41 +26,57 @@ static void	draw(t_map **map)
 }
 
 /*
-65361 - 65364 (arrows) - moving the map;
-111 and 108 (O and L) - angle
+65361 - 65364 (arrows)	- moving the map;
+111 and 108 (O and L)	- angle
+102 (F)					- default
+65451 and 65453	(+, -)	- zoom
 */
 
-static int	key_hook(int keycode, t_map *map)
+static void	other_key(int kcode, t_map *map)
 {
-	if ((keycode >= 65361 && keycode <= 65364) || keycode == 65307
-		|| keycode == 108 || keycode == 111 || keycode == 102)
+	if (kcode == 65451)
+		map->zoom += 2;
+	else if (kcode == 65453 && map->zoom > 1)
 	{
-		if (keycode == 65362)
+		map->zoom -= 2;
+		if (map->zoom < 1)
+			map->zoom = 1;
+	}
+	else if (kcode == 102)
+		default_map(&map);
+	return ;
+}
+
+static int	key_hook(int kcode, t_map *map)
+{
+	if ((kcode >= 65361 && kcode <= 65364) || kcode == 65307 || kcode == 108
+		|| kcode == 111 || kcode == 102 || kcode == 65451 || kcode == 65453)
+	{
+		if (kcode == 65362)
 			map->shift_y -= 25;
-		else if (keycode == 65364)
+		else if (kcode == 65364)
 			map->shift_y += 25;
-		else if (keycode == 65361)
+		else if (kcode == 65361)
 			map->shift_x -= 20;
-		else if (keycode == 65363)
+		else if (kcode == 65363)
 			map->shift_x += 20;
-		else if (keycode == 111)
+		else if (kcode == 111)
 			map->angle += 0.1;
-		else if (keycode == 108)
+		else if (kcode == 108)
 			map->angle -= 0.1;
-		else if (keycode == 65307)
+		else if (kcode == 65307)
 			esc_exit(map);
-		else if (keycode == 102)
-			default_map(&map);
+		else
+			other_key(kcode, map);
 		mlx_destroy_image(map->mlx_ptr, map->img);
 		draw(&map);
 	}
-	printf("%d\n", keycode);
+	fprintf(stderr, "%d\n", kcode);
 	return (1);
 }
 
 void	pre_draw(t_map **map)
 {
-	(*map)->zoom = find_zoom(map);
 	(*map)->mlx_ptr = mlx_init();
 	(*map)->win_ptr = mlx_new_window((*map)->mlx_ptr, 1200, 800, "FdF");
 	draw(map);
@@ -94,32 +110,5 @@ void	draw_lines(t_map **map, t_img *img)
 			c.x0++;
 		}
 		c.y0++;
-	}
-}
-
-void	brasenham(t_cord c, t_map **map, t_img *img)
-{
-	t_bran	b;
-	t_cord	t;
-
-	t = c;
-	isometric(&t, map);
-	fill_b(&b, &t);
-	while (1 == 1)
-	{
-		my_mlx_pixel_put(img, t.x0, t.y0, (*map)->colour);
-		if (t.x0 == t.x1 || t.y0 == t.y1)
-			break ;
-		b.error2 = b.error * 2;
-		if (b.error2 > -b.dy)
-		{
-			b.error -= b.dy;
-			t.x0 += b.signx;
-		}
-		if (b.error2 < b.dx)
-		{
-			b.error += b.dx;
-			t.y0 += b.signy;
-		}
 	}
 }
