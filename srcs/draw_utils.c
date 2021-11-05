@@ -6,7 +6,7 @@
 /*   By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 16:13:06 by drohanne          #+#    #+#             */
-/*   Updated: 2021/11/04 16:13:11 by drohanne         ###   ########.fr       */
+/*   Updated: 2021/11/05 22:23:09 by drohanne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,6 @@ int	ft_abs(int a)
 	if (a >= 0)
 		return (a);
 	return (-a);
-}
-
-int	ft_colour(int i)
-{
-	if (i == 0)
-		return (0xFFFFFF);
-	if (i < 50)
-		return (i * 120000);
-	else if (i < 200)
-		return (10000 + i * 10000);
-	else
-		return (i);
 }
 
 t_cord	zoom_c(t_cord c, int z)

@@ -6,7 +6,7 @@
 /*   By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/24 17:50:32 by drohanne          #+#    #+#             */
-/*   Updated: 2021/11/04 15:35:23 by drohanne         ###   ########.fr       */
+/*   Updated: 2021/11/05 23:22:00 by drohanne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ typedef struct s_map
 	void	*mlx_ptr;
 	void	*win_ptr;
 	int		**cord;
+	int		z_min;
+	int		z_max;
 	int		height;
 	int		width;
 	int		zoom;
@@ -30,18 +32,24 @@ typedef struct s_map
 	int		shift_x;
 	int		shift_y;
 	void	*img;
+	int		flag_view;
+	int		flag_rotate;
+	int		angle_x;
+	int		angle_y;
+	int		angle_z;
+	int		**colours;
 }	t_map;
 
 typedef struct s_bran
 {
-	int	x;
-	int	y;
 	int	dx;
 	int	dy;
 	int	signx;
 	int	signy;
 	int	error;
 	int	error2;
+	int	start_x;
+	int	start_y;
 }	t_bran;
 
 typedef struct s_cord
@@ -50,6 +58,10 @@ typedef struct s_cord
 	int	x1;
 	int	y0;
 	int	y1;
+	int	z0;
+	int	z1;
+	int	colour0;
+	int	colour1;
 }	t_cord;
 
 typedef struct s_img
@@ -62,7 +74,6 @@ typedef struct s_img
 }	t_img;
 
 void	fdf(char *argv);
-//void	my_mlx_pixel_put(t_img *img, int x, int y, int colour);
 
 t_map	*init_map(char *argv);
 void	default_map(t_map **map);
@@ -74,17 +85,22 @@ void	pre_draw(t_map **map);
 void	draw_lines(t_map **map, t_img *img);
 void	brasenham(t_cord c, t_map **map, t_img *img);
 
+void	put_instructions(t_map **map);
+
 void	esc_exit(t_map *map);
-void	my_mlx_pixel_put(t_img *img, int x, int y, int colour);
-void	fill_b(t_bran *b, t_cord *t);
-void	add_shift(t_cord *t, t_map **map);
-void	isometric(t_cord *t, t_map **map);
+void	rotate(int *x, int *y, int *z, t_map **map);
 
 int		find_zoom(t_map **map);
 t_cord	zoom_c(t_cord c, int z);
 
 int		ft_abs(int a);
 int		ft_colour(int i);
+void	angle_x(t_map *map, int *y, int *z);
+void	angle_y(t_map *map, int *x, int *z);
+void	angle_z(t_map *map, int *x, int *y);
+
+int		default_color(int z, t_map *map);
+int		ft_color(t_cord t, t_bran b);
 
 void	free_split(char **split);
 void	free_map(t_map **map);

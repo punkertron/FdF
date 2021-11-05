@@ -6,12 +6,13 @@
 #    By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/05 21:43:59 by drohanne          #+#    #+#              #
-#    Updated: 2021/11/04 14:45:59 by drohanne         ###   ########.fr        #
+#    Updated: 2021/11/05 22:21:35 by drohanne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC_FILES	= main.c get_next_line.c get_next_line_utils.c map.c \
-				draw.c draw_utils.c draw_utils2.c
+				draw.c draw_utils.c draw_utils2.c rotate.c instructions.c \
+				colour.c
 SRCS_DIR	= ./srcs
 OBJS_DIR	= ./objs
 
@@ -24,19 +25,19 @@ OBJS 		= $(addprefix $(OBJS_DIR)/, $(OBJ_FILES))
 NAME		= fdf
 INCLUDE		= -I ./includes
 DEPS		= $(OBJS:.o=.d)
+LIBFT_DIR	= ./libft
 
 CC			= clang
 RM			= rm -rf
-CFLAGS		= -Wall -Wextra -Werror -g3 # -MMD -MP -march=native -O2
-LIB			= -L./libft -lft -L./libmlx -lmlx -lXext -lX11 -lm
-LIBFT_A		= ./libft/libft.a
+CFLAGS		= -Wall -Wextra -Werror -MMD -MP -march=native -O2
+LIB			= -L$(LIBFT_DIR) -lft -L./libmlx -lmlx -lXext -lX11 -lm
+LIBFT_A		= $(LIBFT_DIR)/libft.a
 
 $(NAME):	$(LIBFT_A) $(OBJS)
 			${CC} ${CFLAGS} ${OBJS} $(INCLUDE) ${LIB} -o ${NAME}
 
 $(LIBFT_A):	
-			@${MAKE} -C ./libft
-			
+			@${MAKE} -C $(LIBFT_DIR)
 
 all:		$(NAME)
 
