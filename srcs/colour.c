@@ -6,11 +6,35 @@
 /*   By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 21:44:14 by drohanne          #+#    #+#             */
-/*   Updated: 2021/11/06 01:13:29 by drohanne         ###   ########.fr       */
+/*   Updated: 2021/11/06 13:05:14 by drohanne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+void	fill_col(t_map **map)
+{
+	int	i;
+	int	a;
+
+	i = 0;
+	(*map)->col = malloc(sizeof(int *) * (*map)->height);
+	if ((*map)->col == NULL)
+		ft_exit();
+	while (i < (*map)->height)
+	{
+		(*map)->col[i] = malloc(sizeof(int) * (*map)->width);
+		if ((*map)->col[i] == NULL)
+			ft_exit();
+		a = 0;
+		while (a < (*map)->width)
+		{
+			(*map)->col[i][a] = default_color((*map)->cord[i][a], *map);
+			a++;
+		}
+		i++;
+	}
+}
 
 static float	percent(int start, int end, int current)
 {
@@ -53,17 +77,17 @@ int	ft_color(t_cord t, t_bran b)
 	int		blue;
 	float	percentage;
 
-	if (t.colour0 == t.colour1)
-		return (t.colour0);
+	if (b.col0_init == b.col1_init)
+		return (b.col0_init);
 	if (b.dx > b.dy)
 		percentage = percent(b.start_x, t.x1, t.x0);
 	else
 		percentage = percent(b.start_y, t.y1, t.y0);
-	red = get_light((t.colour0 >> 16) & 0xFF, (t.colour1 >> 16) & 0xFF,
+	red = get_light((b.col0_init >> 16) & 0xFF, (b.col1_init >> 16) & 0xFF,
 			percentage);
-	green = get_light((t.colour0 >> 8) & 0xFF, (t.colour1 >> 8) & 0xFF,
+	green = get_light((b.col0_init >> 8) & 0xFF, (b.col1_init >> 8) & 0xFF,
 			percentage);
-	blue = get_light(t.colour0 & 0xFF, t.colour1 & 0xFF,
+	blue = get_light(b.col0_init & 0xFF, b.col1_init & 0xFF,
 			percentage);
 	return ((red << 16) | (green << 8) | blue);
 }

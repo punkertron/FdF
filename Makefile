@@ -6,13 +6,13 @@
 #    By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/06 02:29:13 by drohanne          #+#    #+#              #
-#    Updated: 2021/11/06 03:06:20 by drohanne         ###   ########.fr        #
+#    Updated: 2021/11/06 13:59:06 by drohanne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC_FILES	= main.c get_next_line.c get_next_line_utils.c map.c \
 				draw.c draw_utils.c draw_utils2.c rotate.c instructions.c \
-				colour.c sin_cos.c
+				hook.c colour.c sin_cos.c
 SRCS_DIR	= ./srcs
 OBJS_DIR	= ./objs
 
@@ -35,6 +35,7 @@ LIB			= -L$(LIBFT_DIR) -lft -L$(LMLX_DIR) -lmlx -lXext -lX11 -lm
 LIBFT_A		= $(LIBFT_DIR)/libft.a
 
 all bonus:
+			@${MAKE} -C $(LMLX_DIR)
 			@${MAKE} -C $(LIBFT_DIR)
 			@${MAKE} $(NAME)
 
@@ -51,11 +52,13 @@ $(OBJS_DIR)/%.o :	$(SRCS_DIR)/%.c
 
 clean:
 			${RM} ${OBJS_DIR}
-			@${MAKE} clean -C ./libft
+			@${MAKE} clean -C ${LIBFT_DIR}
+			@${MAKE} clean -C $(LMLX_DIR)
 
 fclean:		clean
 			${RM} ${NAME}
-			@${MAKE} fclean -C ./libft
+			${RM} ${LMLX_DIR}/libmlx.a
+			@${MAKE} fclean -C ${LIBFT_DIR}
 
 re:			fclean all
 

@@ -6,7 +6,7 @@
 /*   By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 16:13:14 by drohanne          #+#    #+#             */
-/*   Updated: 2021/11/06 00:54:10 by drohanne         ###   ########.fr       */
+/*   Updated: 2021/11/06 14:47:34 by drohanne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,13 @@ static void	my_mlx_pixel_put(t_img *img, int x, int y, int colour)
 {
 	char	*dst;
 
-	if (x > 1200)
-		x = 1200;
-	if (x < 0)
-		x = 0;
-	if (y < 0)
-		y = 0;
-	if (y > 800)
-		y = 800;
-	if (x == 0 || x == 1200 || y == 0 || y == 800)
-		colour = 0;
+	if (x >= 1200 || x <= 0 || y <= 0 || y >= 800)
+		return ;
 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 	*(unsigned int *)dst = colour;
 }
 
-static void	fill_b(t_bran *b, t_cord *t, t_map *map)
+static void	fill_b(t_bran *b, t_cord *t)
 {
 	b->dx = ft_abs(t->x1 - t->x0);
 	b->dy = ft_abs(t->y1 - t->y0);
@@ -41,8 +33,6 @@ static void	fill_b(t_bran *b, t_cord *t, t_map *map)
 	b->error = b->dx - b->dy;
 	b->start_x = t->x0;
 	b->start_y = t->y0;
-	t->colour0 = default_color(t->z0, map);
-	t->colour1 = default_color(t->z1, map);
 }
 
 static void	add_shift(t_cord *t, t_map **map)
@@ -53,13 +43,14 @@ static void	add_shift(t_cord *t, t_map **map)
 	t->y1 += (*map)->shift_y;
 }
 
-static void	isometric_more(t_cord *t, t_map **map)
+static void	isometric_more(t_cord *t, t_bran *b, t_map **map)
 {
 	int	temp1;
 	int	temp2;
 
-	t->z0 = (*map)->cord[t->y0 / (*map)->zoom][t->x0 / (*map)->zoom];
-	t->z1 = (*map)->cord[t->y1 / (*map)->zoom][t->x1 / (*map)->zoom];
+	b->col0_init = (*map)->col[t->y0][t->x0];
+	b->col1_init = (*map)->col[t->y1][t->x1];
+	zoom_c(t, *map);
 	rotate(&(t->x0), &(t->y0), &(t->z0), map);
 	rotate(&(t->x1), &(t->y1), &(t->z1), map);
 	if ((*map)->flag_view == 0)
@@ -82,8 +73,8 @@ void	brasenham(t_cord c, t_map **map, t_img *img)
 	t_cord	t;
 
 	t = c;
-	isometric_more(&t, map);
-	fill_b(&b, &t, *map);
+	isometric_more(&t, &b, map);
+	fill_b(&b, &t);
 	while (1 == 1)
 	{
 		my_mlx_pixel_put(img, t.x0, t.y0, ft_color(t, b));

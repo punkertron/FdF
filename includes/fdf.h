@@ -6,7 +6,7 @@
 /*   By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/24 17:50:32 by drohanne          #+#    #+#             */
-/*   Updated: 2021/11/06 02:14:42 by drohanne         ###   ########.fr       */
+/*   Updated: 2021/11/06 14:45:53 by drohanne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_map
 	void	*mlx_ptr;
 	void	*win_ptr;
 	int		**cord;
+	int		**col;
 	int		z_min;
 	int		z_max;
 	int		height;
@@ -48,6 +49,8 @@ typedef struct s_bran
 	int	error2;
 	int	start_x;
 	int	start_y;
+	int	col0_init;
+	int	col1_init;
 }	t_bran;
 
 typedef struct s_cord
@@ -58,8 +61,6 @@ typedef struct s_cord
 	int	y1;
 	int	z0;
 	int	z1;
-	int	colour0;
-	int	colour1;
 }	t_cord;
 
 typedef struct s_img
@@ -80,22 +81,25 @@ void	map_fill(char **line, t_map **map, int i);
 void	fill_map(char **split, t_map **map, int i);
 
 void	pre_draw(t_map **map);
+void	draw(t_map **map);
 void	brasenham(t_cord c, t_map **map, t_img *img);
 
 void	put_instructions(t_map **map);
 
+int		key_hook(int kcode, t_map *map);
+
 void	rotate(int *x, int *y, int *z, t_map **map);
 
 int		ft_abs(int a);
-t_cord	zoom_c(t_cord c, int z);
+void	zoom_c(t_cord *t, t_map *map);
 int		find_zoom(t_map **map);
-void	another_kcode(int kcode, t_map *map);
 
 double	cos_deg(int deg);
 double	sin_deg(int deg);
 
 int		default_color(int z, t_map *map);
 int		ft_color(t_cord t, t_bran b);
+void	fill_col(t_map **map);
 
 void	esc_exit(t_map *map);
 void	free_split(char **split);
