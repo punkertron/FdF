@@ -6,7 +6,7 @@
 #    By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/10 18:01:46 by drohanne          #+#    #+#              #
-#    Updated: 2021/11/06 03:05:21 by drohanne         ###   ########.fr        #
+#    Updated: 2021/11/06 16:17:39 by drohanne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,7 +73,7 @@ RM			= rm -rf
 CFLAGS		= -Wall -Wextra -Werror -O2 -MMD -MP -march=native
 
 $(NAME):	$(OBJS)
-			@${LIBC} ${NAME} ${OBJS}
+			${LIBC} ${NAME} ${OBJS}
 
 all:		$(NAME)
 
@@ -81,7 +81,7 @@ all:		$(NAME)
 -include $(DEPS)
 $(OBJS_DIR)/%.o :	$(SRCS_DIR)/%.c
 					@mkdir -p objs
-					@$(CC) -c $(CFLAGS) $(INCLUDE) $< -o $@
+					$(CC) -c $(CFLAGS) $(INCLUDE) $< -o $@
 
 clean:
 			${RM} ${OBJS_DIR}

@@ -6,7 +6,7 @@
 /*   By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 16:13:06 by drohanne          #+#    #+#             */
-/*   Updated: 2021/11/06 14:59:42 by drohanne         ###   ########.fr       */
+/*   Updated: 2021/11/06 16:43:11 by drohanne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	zoom_c(t_cord *t, t_map *map)
 	int	z1;
 
 	z = map->zoom;
-	z1 = z / 2;
+	z1 = z / 2 + 1;
 	t->z0 = map->cord[t->y0][t->x0] * z1;
 	t->z1 = map->cord[t->y1][t->x1] * z1;
 	t->x0 *= z;
@@ -39,8 +39,12 @@ void	zoom_c(t_cord *t, t_map *map)
 int	find_zoom(t_map **map)
 {
 	int	z;
+	int	s;
 
-	z = 1200 / (*map)->width / 2;
+	s = (*map)->z_max - (*map)->z_min;
+	if (s < (*map)->width)
+		s = (*map)->width;
+	z = 1200 / s / 2;
 	if (z == 0)
 		z = 1;
 	return (z);
