@@ -6,7 +6,7 @@
 #    By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/06 02:29:13 by drohanne          #+#    #+#              #
-#    Updated: 2021/11/06 13:59:06 by drohanne         ###   ########.fr        #
+#    Updated: 2021/11/06 18:32:59 by drohanne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ LMLX_DIR	= ./libmlx
 
 CC			= clang
 RM			= rm -rf
-CFLAGS		= -Wall -Wextra -Werror -MMD -MP -march=native -O2
+CFLAGS		= -Wall -Wextra -Werror -g3 #-MMD -MP -march=native -O2
 LIB			= -L$(LIBFT_DIR) -lft -L$(LMLX_DIR) -lmlx -lXext -lX11 -lm
 LIBFT_A		= $(LIBFT_DIR)/libft.a
 

@@ -6,7 +6,7 @@
 /*   By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 21:44:14 by drohanne          #+#    #+#             */
-/*   Updated: 2021/11/06 13:05:14 by drohanne         ###   ########.fr       */
+/*   Updated: 2021/11/06 18:07:51 by drohanne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,5 @@ int	ft_color(t_cord t, t_bran b)
 			percentage);
 	blue = get_light(b.col0_init & 0xFF, b.col1_init & 0xFF,
 			percentage);
-	return ((red << 16) | (green << 8) | blue);
+	return ((red * 65536) + (green * 256) + blue);
 }
