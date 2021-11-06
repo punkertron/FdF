@@ -6,7 +6,7 @@
 /*   By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 15:28:09 by drohanne          #+#    #+#             */
-/*   Updated: 2021/11/04 13:32:48 by drohanne         ###   ########.fr       */
+/*   Updated: 2021/11/06 02:08:45 by drohanne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,13 @@ t_map	*init_map(char *argv)
 	map = malloc(sizeof(t_map));
 	if (map == NULL)
 		ft_exit();
-	get_heght_width(&map, argv);
-	default_map(&map);
+	get_height_width(&map, argv);
+	map->z_max = -2147483648;
+	map->z_min = 2147483647;
 	return (map);
 }
 
-void	get_heght_width(t_map **map, char *argv)
+void	get_height_width(t_map **map, char *argv)
 {
 	int		fd;
 	char	*line;
@@ -57,10 +58,10 @@ void	fdf(char *argv)
 	char	*line;
 	t_map	*map;
 
-	map = init_map(argv);
 	fd = open(argv, O_RDONLY);
 	if (fd == -1)
 		ft_exit();
+	map = init_map(argv);
 	i = 0;
 	map->cord = malloc(sizeof(int *) * map->height);
 	if (map->cord == NULL)
@@ -69,6 +70,13 @@ void	fdf(char *argv)
 		map_fill(&line, &map, i++);
 	free(line);
 	close(fd);
+	if (map->width == -1)
+	{
+		free(map->cord);
+		free(map);
+		ft_putendl_fd("Empty map!", 2);
+		exit(EXIT_FAILURE);
+	}
 	pre_draw(&map);
 }
 
@@ -83,11 +91,11 @@ int	main(int argc, char **argv)
 		{
 			close(fd);
 			ft_putendl_fd("Directory, not a file!", 2);
-			exit(-1);
+			exit(EXIT_FAILURE);
 		}
 		fdf(argv[1]);
 	}
 	else
-		ft_putstr_fd("Bad arguments!\n", 2);
+		ft_putendl_fd("Bad arguments!", 2);
 	return (0);
 }

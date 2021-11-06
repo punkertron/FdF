@@ -6,7 +6,7 @@
 /*   By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 16:13:14 by drohanne          #+#    #+#             */
-/*   Updated: 2021/11/05 23:21:00 by drohanne         ###   ########.fr       */
+/*   Updated: 2021/11/06 00:54:10 by drohanne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static void	fill_b(t_bran *b, t_cord *t, t_map *map)
 	b->start_y = t->y0;
 	t->colour0 = default_color(t->z0, map);
 	t->colour1 = default_color(t->z1, map);
-	map->colour = ft_colour(t->z0);
 }
 
 static void	add_shift(t_cord *t, t_map **map)
@@ -63,8 +62,6 @@ static void	isometric_more(t_cord *t, t_map **map)
 	t->z1 = (*map)->cord[t->y1 / (*map)->zoom][t->x1 / (*map)->zoom];
 	rotate(&(t->x0), &(t->y0), &(t->z0), map);
 	rotate(&(t->x1), &(t->y1), &(t->z1), map);
-	//angle_x(*map, &(t->y0), &(t->z0));
-	//angle_x(*map, &(t->y1), &(t->z1));
 	if ((*map)->flag_view == 0)
 	{
 		temp1 = t->x0;
@@ -76,9 +73,6 @@ static void	isometric_more(t_cord *t, t_map **map)
 		t->x1 = (temp1 - temp2) * cos((*map)->angle);
 		t->y1 = (temp1 + temp2) * sin((*map)->angle) - t->z1;
 	}
-	/*if (t->z0 == 0)
-		t->z0 = t->z1;
-		*/
 	add_shift(t, map);
 }
 
@@ -92,8 +86,7 @@ void	brasenham(t_cord c, t_map **map, t_img *img)
 	fill_b(&b, &t, *map);
 	while (1 == 1)
 	{
-		//fprintf(stderr,"z=%d\n", t.z0);
-		my_mlx_pixel_put(img, t.x0, t.y0, (*map)->colour); //ft_color(t, b)); //
+		my_mlx_pixel_put(img, t.x0, t.y0, ft_color(t, b));
 		if (t.x0 == t.x1 && t.y0 == t.y1)
 			break ;
 		b.error2 = b.error * 2;

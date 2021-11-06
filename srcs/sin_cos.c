@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   sin_cos.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/04 16:12:38 by drohanne          #+#    #+#             */
-/*   Updated: 2021/11/06 02:15:01 by drohanne         ###   ########.fr       */
+/*   Created: 2021/11/06 00:51:27 by drohanne          #+#    #+#             */
+/*   Updated: 2021/11/06 00:54:28 by drohanne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "fdf.h"
+#include <math.h>
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1024
-# endif
+double	cos_deg(int deg)
+{
+	double	r;
 
-# include <unistd.h>
-# include "../libft/includes/libft.h"
+	r = atan(1) * 4;
+	r = r * deg / 180;
+	return (cos(r));
+}
 
-int		get_next_line(int fd, char **line);
+double	sin_deg(int deg)
+{
+	double	r;
 
-char	*ft_strjoin_new(char *s1, char const *s2);
-size_t	ft_strlen_new(const char *s);
-int		ft_check(char *save, int l);
-
-#endif
+	r = atan(1) * 4;
+	r = r * deg / 180;
+	return (sin(r));
+}

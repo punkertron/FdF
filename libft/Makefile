@@ -6,7 +6,7 @@
 #    By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/10 18:01:46 by drohanne          #+#    #+#              #
-#    Updated: 2021/11/03 20:22:23 by drohanne         ###   ########.fr        #
+#    Updated: 2021/11/06 03:05:21 by drohanne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,10 +84,10 @@ $(OBJS_DIR)/%.o :	$(SRCS_DIR)/%.c
 					@$(CC) -c $(CFLAGS) $(INCLUDE) $< -o $@
 
 clean:
-			@${RM} ${OBJS_DIR}
+			${RM} ${OBJS_DIR}
 
 fclean:		clean
-			@${RM} ${NAME}
+			${RM} ${NAME}
 
 re:			fclean all
 

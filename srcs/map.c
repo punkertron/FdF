@@ -6,7 +6,7 @@
 /*   By: drohanne <drohanne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 15:28:14 by drohanne          #+#    #+#             */
-/*   Updated: 2021/11/05 23:21:49 by drohanne         ###   ########.fr       */
+/*   Updated: 2021/11/06 01:32:59 by drohanne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	map_fill(char **line, t_map **map, int i)
 
 void	default_map(t_map **map)
 {
-	(*map)->shift_x = 500;
+	(*map)->shift_x = 450;
 	(*map)->shift_y = 150;
 	(*map)->angle = 0.523599;
 	(*map)->zoom = find_zoom(map);
@@ -44,8 +44,6 @@ void	default_map(t_map **map)
 	(*map)->angle_x = 0;
 	(*map)->angle_y = 0;
 	(*map)->angle_z = 0;
-	(*map)->z_max = -2147483648;
-	(*map)->z_min = 2147483647;
 }
 
 void	free_split(char **split)
