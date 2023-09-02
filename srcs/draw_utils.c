@@ -26,7 +26,7 @@ void	zoom_c(t_cord *t, t_map *map)
 	int	z1;
 
 	z = map->zoom;
-	z1 = z / 2 + 1;
+	z1 = z / 4 + 1;
 	t->z0 = map->cord[t->y0][t->x0] * z1;
 	t->z1 = map->cord[t->y1][t->x1] * z1;
 	t->x0 *= z;
