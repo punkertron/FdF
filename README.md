@@ -2,7 +2,7 @@
 
 This C project is designed to parse files containing coordinates and render them as images. Users can manipulate the rendered images by rotating, shifting, zooming, and more.
 
-GIF!!!!!!!!!!!
+![MapDraw](https://github.com/punkertron/MapDraw/assets/82904352/3f9a9249-b9c2-4d07-8465-539c79c01358)
 
 ---
 ## Features
@@ -58,3 +58,4 @@ You can use the following commands:
 ## Additional Information
 - Drawing is done using the [**MiniLibX**](https://github.com/42Paris/minilibx-linux) library.
 - The code is written in accordance with [**norminette**](https://github.com/42School/norminette) style.
+- The original name was FdF :-)
